@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif - KODING Kelas X</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- html2canvas for certificate export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .sidebar-item-active {
+            background-color: #2563eb;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+        }
+        .cert-border {
+            border: 12px solid #1e40af;
+            outline: 4px dashed #3b82f6;
+            outline-offset: -8px;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER TOPBAR -->
+    <header class="bg-gradient-to-r from-brand-900 via-brand-800 to-brand-700 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <button id="mobile-menu-btn" class="md:hidden text-white hover:text-brand-100 focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+                <div class="bg-white/10 p-2.5 rounded-xl backdrop-blur-md">
+                    <i class="fas fa-code text-2xl text-blue-300"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-blue-400/20 text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-blue-400/30">Mata Pelajaran</span>
+                        <h1 class="text-xl font-extrabold tracking-tight">KODING</h1>
+                    </div>
+                    <p class="text-xs text-blue-200 mt-0.5"><i class="fas fa-layer-group mr-1"></i>Topik: Pemecahan Masalah (Computational Thinking)</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-6 text-sm">
+                <div class="hidden sm:flex items-center space-x-3 bg-white/10 px-4 py-2 rounded-xl backdrop-blur-md">
+                    <div class="w-8 h-8 rounded-full bg-blue-400/30 flex items-center justify-center font-bold text-white border border-blue-300/40">
+                        AH
+                    </div>
+                    <div>
+                        <div class="text-xs text-blue-200">Guru Pengampu</div>
+                        <div class="font-bold">Ahmad Hudzaifah, S.Kom</div>
+                    </div>
+                </div>
+                <div class="bg-white/10 px-3.5 py-1.5 rounded-xl backdrop-blur-md border border-white/10 text-center">
+                    <span class="text-xs text-blue-200 block">Tingkat Kelas</span>
+                    <span class="font-bold text-base text-yellow-300">10 / X</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-1 flex max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 gap-6">
+
+        <!-- SIDEBAR NAVIGATION -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-72 bg-white border-r border-slate-200 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col rounded-2xl shadow-sm md:border md:shadow-none h-[calc(100vh-6rem)] sticky top-20">
+            <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                <h2 class="font-bold text-slate-700 text-sm uppercase tracking-wider"><i class="fas fa-compass text-brand-600 mr-2"></i>Navigasi Materi</h2>
+                <button id="close-sidebar-btn" class="md:hidden text-slate-400 hover:text-slate-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <nav class="flex-1 overflow-y-auto p-3 space-y-1.5" id="nav-list">
+                <button onclick="switchTab('cp')" id="nav-cp" class="w-full text-left px-3.5 py-3 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 hover:text-brand-600 transition flex items-center space-x-3 sidebar-item-active">
+                    <i class="fas fa-bullseye w-5 text-center text-lg"></i>
+                    <span>1. Capaian Pembelajaran</span>
+                </button>
+
+                <button onclick="switchTab('dekomposisi')" id="nav-dekomposisi" class="w-full text-left px-3.5 py-3 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 hover:text-brand-600 transition flex items-center space-x-3">
+                    <i class="fas fa-puzzle-piece w-5 text-center text-lg"></i>
+                    <span>2. Dekomposisi Keuangan</span>
+                </button>
+
+                <button onclick="switchTab('pattern')" id="nav-pattern" class="w-full text-left px-3.5 py-3 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 hover:text-brand-600 transition flex items-center space-x-3">
+                    <i class="fas fa-search-dollar w-5 text-center text-lg"></i>
+                    <span>3. Pattern & Abstraksi</span>
+                </button>
+
+                <button onclick="switchTab('algoritma')" id="nav-algoritma" class="w-full text-left px-3.5 py-3 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 hover:text-brand-600 transition flex items-center space-x-3">
+                    <i class="fas fa-project-diagram w-5 text-center text-lg"></i>
+                    <span>4. Desain Solusi / Algoritma</span>
+                </button>
+
+                <button onclick="switchTab('keamanan')" id="nav-keamanan" class="w-full text-left px-3.5 py-3 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 hover:text-brand-600 transition flex items-center space-x-3">
+                    <i class="fas fa-user-shield w-5 text-center text-lg"></i>
+                    <span>5. Medsos & Keamanan Data</span>
+                </button>
+
+                <button onclick="switchTab('evaluasi')" id="nav-evaluasi" class="w-full text-left px-3.5 py-3 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 hover:text-brand-600 transition flex items-center space-x-3">
+                    <i class="fas fa-file-signature w-5 text-center text-lg"></i>
+                    <span>6. Evaluasi & Sertifikat</span>
+                </button>
+            </nav>
+
+            <div class="p-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl">
+                <div class="flex items-center justify-between text-xs text-slate-500 mb-1">
+                    <span>Progres Belajar</span>
+                    <span id="progress-percent" class="font-bold text-brand-600">16%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progress-bar" class="bg-brand-600 h-2 rounded-full transition-all duration-300" style="width: 16%"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-8 min-h-[calc(100vh-6rem)] overflow-y-auto">
+            
+            <!-- SECTION 1: CAPAIAN PEMBELAJARAN (CP) -->
+            <section id="sec-cp" class="tab-content space-y-6">
+                <div class="border-b border-slate-200 pb-4">
+                    <div class="inline-flex items-center gap-2 bg-blue-50 text-brand-700 font-semibold px-3 py-1 rounded-lg text-xs mb-2">
+                        <i class="fas fa-award"></i> Kurikulum Koding & CT Kelas X
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800">Capaian & Tujuan Pembelajaran</h2>
+                    <p class="text-slate-600 text-sm mt-1">Panduan acuan kompetensi utama dalam modul interaktif ini.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-xl p-5 shadow-sm">
+                        <div class="w-10 h-10 rounded-lg bg-brand-600 text-white flex items-center justify-center font-bold text-xl mb-4">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">Capaian Pembelajaran (CP)</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Peserta didik mampu menerapkan metode Berpikir Komputasional (Computational Thinking) secara logis dan terstruktur untuk memecahkan permasalahan kompleks sehari-hari (khususnya studi kasus tata kelola keuangan), merancang alur kerja pemecahan masalah (algoritma & flowchart), serta menganalisis dampak negatif media sosial dan menjaga keamanan data pribadi di era digital.
+                        </p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-xl p-5 shadow-sm">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xl mb-4">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">Tujuan Pembelajaran (TP)</h3>
+                        <ul class="text-slate-600 text-sm space-y-2.5">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-emerald-500 mt-1 mr-2.5 flex-shrink-0"></i>
+                                <span><strong>TP 1:</strong> Memahami dan menerapkan teknik <em>Dekomposisi</em> untuk memecah masalah keuangan yang rumit menjadi bagian terkecil.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-emerald-500 mt-1 mr-2.5 flex-shrink-0"></i>
+                                <span><strong>TP 2:</strong> Mengidentifikasi <em>Pattern Recognition</em> (kesalahan pembukuan) & menyaring data penting (<em>Abstraksi</em>).</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-emerald-500 mt-1 mr-2.5 flex-shrink-0"></i>
+                                <span><strong>TP 3:</strong> Merancang solusi terstruktur berupa <em>Algoritma Pseudocode & Flowchart</em> alur kerja bisnis.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-emerald-500 mt-1 mr-2.5 flex-shrink-0"></i>
+                                <span><strong>TP 4:</strong> Menganalisis risiko kejahatan siber (Phishing & Social Engineering) dan mitigasi kebocoran data.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl">
+                    <div class="flex items-center">
+                        <i class="fas fa-lightbulb text-amber-500 text-2xl mr-3"></i>
+                        <div>
+                            <h4 class="font-bold text-amber-800 text-sm">Petunjuk Belajar Interaktif</h4>
+                            <p class="text-xs text-amber-700 mt-0.5">Pelajari materi pada menu sidebar secara berurutan. Di setiap materi terdapat simulasi interaktif yang wajib diuji coba sebelum mengerjakan Evaluasi di akhir.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: DEKOMPOSISI MASALAH KEUANGAN -->
+            <section id="sec-dekomposisi" class="tab-content hidden space-y-6">
+                <div class="border-b border-slate-200 pb-4">
+                    <div class="inline-flex items-center gap-2 bg-blue-50 text-brand-700 font-semibold px-3 py-1 rounded-lg text-xs mb-2">
+                        <i class="fas fa-puzzle-piece"></i> Elemen Computational Thinking 1
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800">Dekomposisi Masalah Keuangan</h2>
+                    <p class="text-slate-600 text-sm mt-1">Memecah problem besar/kompleks menjadi sub-bagian yang lebih sederhana dan mudah dikelola.</p>
+                </div>
+
+                <div class="prose max-w-none text-slate-700 text-sm leading-relaxed space-y-4">
+                    <p>
+                        <strong>Dekomposisi</strong> adalah proses memecah masalah bisnis atau sistem yang rumit menjadi komponen-komponen kecil yang mandiri. Dalam dunia keuangan usaha (finance), masalah seperti <em>"Usaha Mengalami Kerugian Kas"</em> sangat sulit diselesaikan jika tidak diurai terlebih dahulu.
+                    </p>
+                </div>
+
+                <!-- Contoh Kasus & Penjelasan -->
+                <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-3">
+                    <h3 class="font-bold text-base text-slate-800 flex items-center">
+                        <i class="fas fa-building text-brand-600 mr-2"></i> Studi Kasus: Defisit Keuangan Toko Retail "KodingMart"
+                    </h3>
+                    <p class="text-sm text-slate-600">
+                        Masalah Utama: <strong>Laporan akhir bulan menunjukkan defisit kas sebesar Rp 15.000.000.</strong>
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3 pt-2">
+                        <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+                            <span class="text-xs font-bold text-brand-600 block mb-1">Sub-Masalah A</span>
+                            <h4 class="font-bold text-slate-800 text-sm">Pendapatan (Revenue)</h4>
+                            <p class="text-xs text-slate-500 mt-1">Pemeriksaan omset harian, jumlah transaksi pelanggan, dan diskon promo.</p>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+                            <span class="text-xs font-bold text-brand-600 block mb-1">Sub-Masalah B</span>
+                            <h4 class="font-bold text-slate-800 text-sm">Biaya Operasional</h4>
+                            <p class="text-xs text-slate-500 mt-1">Tagihan listrik, sewa tempat, gaji karyawan, dan biaya internet.</p>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+                            <span class="text-xs font-bold text-brand-600 block mb-1">Sub-Masalah C</span>
+                            <h4 class="font-bold text-slate-800 text-sm">Harga Pokok (HPP)</h4>
+                            <p class="text-xs text-slate-500 mt-1">Pembelian barang stok dari supplier dan biaya pengiriman.</p>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+                            <span class="text-xs font-bold text-brand-600 block mb-1">Sub-Masalah D</span>
+                            <h4 class="font-bold text-slate-800 text-sm">Penyusutan Asset</h4>
+                            <p class="text-xs text-slate-500 mt-1">Kerusakan barang (spoilage) dan kebocoran dana tak terduga.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIMULASI INTERAKTIF DEKOMPOSISI -->
+                <div class="bg-blue-900 text-white rounded-2xl p-6 shadow-md">
+                    <h3 class="text-lg font-bold mb-2 flex items-center">
+                        <i class="fas fa-gamepad text-yellow-400 mr-2"></i> Simulasi Interaktif: Break Down Keuangan Usaha
+                    </h3>
+                    <p class="text-xs text-blue-200 mb-4">Klik tombol sub-komponen di bawah ini untuk melihat audit detail dekomposisi keuangan:</p>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                        <button onclick="simulasiDekomposisi('revenue')" class="bg-blue-800 hover:bg-blue-700 border border-blue-600 p-3 rounded-xl text-xs font-bold text-left transition flex justify-between items-center">
+                            <span>1. Audit Revenue</span>
+                            <i class="fas fa-chevron-right text-blue-300"></i>
+                        </button>
+                        <button onclick="simulasiDekomposisi('operasional')" class="bg-blue-800 hover:bg-blue-700 border border-blue-600 p-3 rounded-xl text-xs font-bold text-left transition flex justify-between items-center">
+                            <span>2. Audit Operasional</span>
+                            <i class="fas fa-chevron-right text-blue-300"></i>
+                        </button>
+                        <button onclick="simulasiDekomposisi('hpp')" class="bg-blue-800 hover:bg-blue-700 border border-blue-600 p-3 rounded-xl text-xs font-bold text-left transition flex justify-between items-center">
+                            <span>3. Audit HPP</span>
+                            <i class="fas fa-chevron-right text-blue-300"></i>
+                        </button>
+                        <button onclick="simulasiDekomposisi('kebocoran')" class="bg-blue-800 hover:bg-blue-700 border border-blue-600 p-3 rounded-xl text-xs font-bold text-left transition flex justify-between items-center">
+                            <span>4. Audit Kebocoran</span>
+                            <i class="fas fa-chevron-right text-blue-300"></i>
+                        </button>
+                    </div>
+
+                    <div id="dekomposisi-output" class="bg-blue-950/80 rounded-xl p-4 border border-blue-700/50 min-h-[100px] flex items-center justify-center text-sm text-blue-200 text-center">
+                        <p><i class="fas fa-hand-pointer mr-2"></i>Pilih salah satu komponen di atas untuk mengurai masalahnya secara detail.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: PATTERN RECOGNITION & ABSTRAKSI DATA -->
+            <section id="sec-pattern" class="tab-content hidden space-y-6">
+                <div class="border-b border-slate-200 pb-4">
+                    <div class="inline-flex items-center gap-2 bg-blue-50 text-brand-700 font-semibold px-3 py-1 rounded-lg text-xs mb-2">
+                        <i class="fas fa-search-dollar"></i> Elemen Computational Thinking 2 & 3
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800">Pattern Recognition & Abstraksi Data</h2>
+                    <p class="text-slate-600 text-sm mt-1">Menemukan kesamaan pola (misal: kesalahan human error) dan mengabaikan detail tak relevan (abstraksi).</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+                        <h3 class="font-bold text-slate-800 flex items-center text-base">
+                            <i class="fas fa-fingerprint text-brand-600 mr-2"></i> Pattern Recognition (Pengenalan Pola)
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Mengenali pola berulang pada kesalahan entri data (human error), seperti:
+                        </p>
+                        <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
+                            <li><strong>Typo Angka 0:</strong> Menginput Rp 1.000.000 menjadi Rp 10.000.000.</li>
+                            <li><strong>Transposisi Angka:</strong> Menulis angka 54 menjadi 45.</li>
+                            <li><strong>Pola Waktu:</strong> Kesalahan input paling sering terjadi di atas pukul 16:00 (faktor kelelahan operator).</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+                        <h3 class="font-bold text-slate-800 flex items-center text-base">
+                            <i class="fas fa-filter text-indigo-600 mr-2"></i> Data Abstraction (Abstraksi Data)
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Proses **menyeleksi hanya data inti/penting** dan menyembunyikan detail mentah yang tidak dibutuhkan dalam laporan eksekutif:
+                        </p>
+                        <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
+                            <li><strong>Data Relevan:</strong> Nominal transaksi, Tanggal, ID Kasir, Kategori.</li>
+                            <li><strong>Data Diabaikan (Noise):</strong> Warna struk, merk printer kasir, ucapan salam kasir di kertas.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- SIMULASI DETEKSI HUMAN ERROR (INTERAKTIF) -->
+                <div class="bg-slate-900 text-white rounded-2xl p-6 shadow-md space-y-4">
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="text-lg font-bold flex items-center text-emerald-400">
+                            <i class="fas fa-microscope mr-2"></i> Simulasi Interaktif: Deteksi Human Error & Abstraksi Struk
+                        </h3>
+                        <span class="text-xs bg-emerald-950 text-emerald-300 border border-emerald-700 px-2.5 py-1 rounded-full">Temukan kesalahan entri!</span>
+                    </div>
+
+                    <p class="text-xs text-slate-300">Di bawah ini adalah data transaksi entry manual oleh kasir. Klik baris yang memiliki <strong>pola kesalahan (human error / anomali)</strong>:</p>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left text-slate-300 border-collapse">
+                            <thead class="bg-slate-800 text-slate-200 uppercase font-bold border-b border-slate-700">
+                                <tr>
+                                    <th class="p-3">ID Struk</th>
+                                    <th class="p-3">Nama Barang</th>
+                                    <th class="p-3">Harga Satuan</th>
+                                    <th class="p-3">Jumlah</th>
+                                    <th class="p-3">Total Input Manual</th>
+                                    <th class="p-3">Status Audit</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800">
+                                <tr onclick="checkRowError(this, false)" class="hover:bg-slate-800/60 cursor-pointer transition">
+                                    <td class="p-3 font-mono">TRX-001</td>
+                                    <td class="p-3">Kertas A4 70gr</td>
+                                    <td class="p-3">Rp 45.000</td>
+                                    <td class="p-3">2</td>
+                                    <td class="p-3">Rp 90.000</td>
+                                    <td class="p-3 status-cell"><span class="text-slate-500">Klik untuk periksa</span></td>
+                                </tr>
+                                <tr onclick="checkRowError(this, true, 'Typo penambahan nol! Harusnya Rp 30.000 (15.000 x 2)')" class="hover:bg-slate-800/60 cursor-pointer transition">
+                                    <td class="p-3 font-mono">TRX-002</td>
+                                    <td class="p-3">Pulpen Gel Hitam</td>
+                                    <td class="p-3">Rp 15.000</td>
+                                    <td class="p-3">2</td>
+                                    <td class="p-3 font-bold text-red-400">Rp 300.000</td>
+                                    <td class="p-3 status-cell"><span class="text-slate-500">Klik untuk periksa</span></td>
+                                </tr>
+                                <tr onclick="checkRowError(this, false)" class="hover:bg-slate-800/60 cursor-pointer transition">
+                                    <td class="p-3 font-mono">TRX-003</td>
+                                    <td class="p-3">Flashdisk 32GB</td>
+                                    <td class="p-3">Rp 75.000</td>
+                                    <td class="p-3">1</td>
+                                    <td class="p-3">Rp 75.000</td>
+                                    <td class="p-3 status-cell"><span class="text-slate-500">Klik untuk periksa</span></td>
+                                </tr>
+                                <tr onclick="checkRowError(this, true, 'Transposisi Angka! Harusnya Rp 120.000 tapi diinput Rp 210.000')" class="hover:bg-slate-800/60 cursor-pointer transition">
+                                    <td class="p-3 font-mono">TRX-004</td>
+                                    <td class="p-3">Tinta Printer Black</td>
+                                    <td class="p-3">Rp 60.000</td>
+                                    <td class="p-3">2</td>
+                                    <td class="p-3 font-bold text-red-400">Rp 210.000</td>
+                                    <td class="p-3 status-cell"><span class="text-slate-500">Klik untuk periksa</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: DESAIN SOLUSI (ALGORITMA & FLOWCHART) -->
+            <section id="sec-algoritma" class="tab-content hidden space-y-6">
+                <div class="border-b border-slate-200 pb-4">
+                    <div class="inline-flex items-center gap-2 bg-blue-50 text-brand-700 font-semibold px-3 py-1 rounded-lg text-xs mb-2">
+                        <i class="fas fa-project-diagram"></i> Elemen Computational Thinking 4
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800">Desain Solusi (Algoritma Alur Kerja)</h2>
+                    <p class="text-slate-600 text-sm mt-1">Merancang langkah-langkah logis matematis (pseudocode & flowchart) untuk menyelesaikan masalah.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Pseudocode -->
+                    <div class="bg-slate-900 text-slate-100 rounded-xl p-5 shadow-sm font-mono text-xs">
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-700 mb-3 text-slate-400 font-sans">
+                            <span class="font-bold text-yellow-400"><i class="fas fa-code mr-1"></i> Pseudocode Sistem Kasir OTOMATIS</span>
+                            <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded">v1.0</span>
+                        </div>
+                        <pre class="leading-relaxed">
+<span class="text-purple-400">ALGORITMA</span> Hitung_Total_Belanja
+<span class="text-blue-400">DEKLARASI</span>:
+   harga_satuan, jumlah, subtotal, diskon, total_akhir : REAL
+
+<span class="text-blue-400">MULAI</span>
+   <span class="text-emerald-400">INPUT</span> (harga_satuan, jumlah)
+   subtotal = harga_satuan * jumlah
+   
+   <span class="text-purple-400">JIKA</span> (subtotal >= 100000) <span class="text-purple-400">MAKA</span>
+       diskon = 0.10 * subtotal <span class="text-slate-500">// Diskon 10%</span>
+   <span class="text-purple-400">JIKA TIDAK</span>
+       diskon = 0
+   <span class="text-purple-400">ENDIF</span>
+   
+   total_akhir = subtotal - diskon
+   <span class="text-emerald-400">OUTPUT</span> (total_akhir)
+<span class="text-blue-400">SELESAI</span>
+                        </pre>
+                    </div>
+
+                    <!-- Flowchart Interactive Canvas Sim -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
+                        <h3 class="font-bold text-slate-800 text-base flex items-center">
+                            <i class="fas fa-sitemap text-brand-600 mr-2"></i> Visualisasi Interactive Flowchart
+                        </h3>
+                        <p class="text-xs text-slate-600">Jalankan pengujian logis flowchart dengan memasukkan total belanja berikut:</p>
+                        
+                        <div class="flex gap-2">
+                            <input type="number" id="sim-input-belanja" placeholder="Masukkan total belanja (Rp)" class="flex-1 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+                            <button onclick="runFlowchartSim()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs px-4 py-2 rounded-xl transition">
+                                Jalankan Flowchart
+                            </button>
+                        </div>
+
+                        <!-- Visual Steps -->
+                        <div class="space-y-2 pt-2 text-xs">
+                            <div id="fc-step1" class="p-2.5 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-between transition">
+                                <span>1. [START] Input Belanja</span>
+                                <i class="fas fa-circle text-slate-300"></i>
+                            </div>
+                            <div id="fc-step2" class="p-2.5 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-between transition">
+                                <span>2. [DECISION] Apakah Belanja ≥ Rp 100.000?</span>
+                                <i class="fas fa-circle text-slate-300"></i>
+                            </div>
+                            <div id="fc-step3" class="p-2.5 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-between transition">
+                                <span>3. [PROCESS] Hitung Diskon & Total Bayar</span>
+                                <i class="fas fa-circle text-slate-300"></i>
+                            </div>
+                            <div id="fc-step4" class="p-2.5 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-between transition">
+                                <span>4. [END] Cetak Struk Pembayaran</span>
+                                <i class="fas fa-circle text-slate-300"></i>
+                            </div>
+                        </div>
+
+                        <div id="fc-result" class="text-xs p-3 rounded-xl bg-blue-50 text-brand-800 border border-blue-200 font-semibold hidden"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: DAMPAK MEDIA SOSIAL & KEBOCORAN DATA -->
+            <section id="sec-keamanan" class="tab-content hidden space-y-6">
+                <div class="border-b border-slate-200 pb-4">
+                    <div class="inline-flex items-center gap-2 bg-blue-50 text-brand-700 font-semibold px-3 py-1 rounded-lg text-xs mb-2">
+                        <i class="fas fa-shield-alt"></i> Literasi Digital & Keamanan Siber
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800">Dampak Medsos & Kebocoran Data</h2>
+                    <p class="text-slate-600 text-sm mt-1">Memahami ancaman kejahatan siber, reputasi bisnis, dan teknik perlindungan data pribadi.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-red-50 border border-red-100 rounded-xl p-4 space-y-2">
+                        <div class="w-8 h-8 rounded-lg bg-red-600 text-white flex items-center justify-center font-bold text-sm">
+                            <i class="fas fa-fish"></i>
+                        </div>
+                        <h3 class="font-bold text-red-900 text-sm">1. Phishing & Malvertising</h3>
+                        <p class="text-xs text-red-700 leading-relaxed">
+                            Teknik penipuan dengan membuat situs atau email palsu mirip asli untuk mencuri password kasir / akun perbankan bisnis.
+                        </p>
+                    </div>
+
+                    <div class="bg-orange-50 border border-orange-100 rounded-xl p-4 space-y-2">
+                        <div class="w-8 h-8 rounded-lg bg-orange-600 text-white flex items-center justify-center font-bold text-sm">
+                            <i class="fas fa-user-ninja"></i>
+                        </div>
+                        <h3 class="font-bold text-orange-900 text-sm">2. Social Engineering</h3>
+                        <p class="text-xs text-orange-700 leading-relaxed">
+                            Memanipulasi psikologis karyawan via telepon / Medsos (misal: mengaku sebagai bos) untuk meminta kode OTP transaksi.
+                        </p>
+                    </div>
+
+                    <div class="bg-purple-50 border border-purple-100 rounded-xl p-4 space-y-2">
+                        <div class="w-8 h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center font-bold text-sm">
+                            <i class="fas fa-store-slash"></i>
+                        </div>
+                        <h3 class="font-bold text-purple-900 text-sm">3. Kerusakan Reputasi</h3>
+                        <p class="text-xs text-purple-700 leading-relaxed">
+                            Kebocoran data pelanggan (No HP/Alamat) yang diunggah secara tidak sengaja di media sosial dapat merusak citra bisnis.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- TIPS KEAMANAN INTERAKTIF CHECKLIST -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+                    <h3 class="font-bold text-slate-800 text-sm flex items-center">
+                        <i class="fas fa-lock text-emerald-600 mr-2"></i> Checklist Protokol Keamanan Data Bisnis
+                    </h3>
+                    <div class="space-y-2 text-xs">
+                        <label class="flex items-center space-x-3 p-2.5 rounded-lg border border-slate-100 bg-slate-50 hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="w-4 h-4 text-brand-600 rounded focus:ring-brand-500">
+                            <span class="text-slate-700">Aktifkan Authentication Dua Langkah (2FA) di seluruh akun penting bisnis.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-2.5 rounded-lg border border-slate-100 bg-slate-50 hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="w-4 h-4 text-brand-600 rounded focus:ring-brand-500">
+                            <span class="text-slate-700">Jangan pernah membagikan Kode OTP, Tanggal Lahir, atau Nama Ibu Kandung di postingan Medsos.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-2.5 rounded-lg border border-slate-100 bg-slate-50 hover:bg-slate-100 cursor-pointer">
+                            <input type="checkbox" class="w-4 h-4 text-brand-600 rounded focus:ring-brand-500">
+                            <span class="text-slate-700">Gunakan kata sandi unik kombinasi simbol, angka, huruf kapital minimal 12 karakter.</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: EVALUASI & SERTIFIKAT DIGITAL -->
+            <section id="sec-evaluasi" class="tab-content hidden space-y-8">
+                <div class="border-b border-slate-200 pb-4">
+                    <div class="inline-flex items-center gap-2 bg-blue-50 text-brand-700 font-semibold px-3 py-1 rounded-lg text-xs mb-2">
+                        <i class="fas fa-file-signature"></i> Ujian & Sertifikasi
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800">Evaluasi Pembelajaran & Sertifikat Digital</h2>
+                    <p class="text-slate-600 text-sm mt-1">Lengkapi biodata siswa, kerjakan 30 soal evaluasi, dan klaim Sertifikat Kelulusan resmi Anda!</p>
+                </div>
+
+                <!-- STEP 1: BIODATA FORM -->
+                <div id="biodata-card" class="bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 border-b border-slate-200 pb-3">
+                        <div class="w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-sm">1</div>
+                        <h3 class="font-bold text-slate-800 text-base">Formulir Biodata Peserta Didik</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap Siswa *</label>
+                                <input type="text" id="bio-nama" placeholder="Contoh: Muhammad Rizky" class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Tempat, Tanggal Lahir *</label>
+                                <input type="text" id="bio-ttl" placeholder="Contoh: Jakarta, 15 Agustus 2008" class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Sekolah *</label>
+                                    <input type="text" id="bio-sekolah" placeholder="SMA / SMK Negeri 1..." class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Kelas *</label>
+                                    <input type="text" id="bio-kelas" value="10 / X" readonly class="w-full border border-slate-200 bg-slate-100 text-slate-600 rounded-xl px-3.5 py-2.5 text-xs font-bold outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FOTO SISWA: WEBCAM OR UPLOAD -->
+                        <div class="space-y-3">
+                            <label class="block text-xs font-bold text-slate-700">Foto Pas / Selfie Siswa (Untuk Sertifikat) *</label>
+                            
+                            <div class="flex items-center space-x-3">
+                                <button type="button" onclick="openWebcam()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+                                    <i class="fas fa-camera"></i> Ambil Webcam
+                                </button>
+                                <span class="text-xs text-slate-400">atau</span>
+                                <label class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs px-3.5 py-2 rounded-xl transition cursor-pointer flex items-center gap-1.5">
+                                    <i class="fas fa-upload"></i> Upload Foto
+                                    <input type="file" id="bio-foto-file" accept="image/*" class="hidden" onchange="handleFileUpload(event)">
+                                </label>
+                            </div>
+
+                            <!-- Preview Box -->
+                            <div class="w-32 h-40 border-2 border-dashed border-slate-300 rounded-xl bg-slate-100 flex flex-col items-center justify-center overflow-hidden relative">
+                                <img id="foto-preview" src="https://placehold.co/120x150/e2e8f0/94a3b8?text=Foto+Siswa" class="w-full h-full object-cover">
+                            </div>
+
+                            <!-- Modal Webcam Container (Hidden default) -->
+                            <div id="webcam-box" class="hidden bg-slate-900 p-3 rounded-xl space-y-2 max-w-xs">
+                                <video id="webcam-video" autoplay class="w-full rounded-lg bg-black h-36 object-cover"></video>
+                                <div class="flex gap-2">
+                                    <button type="button" onclick="captureWebcam()" class="flex-1 bg-emerald-600 text-white text-xs py-1.5 rounded-lg font-bold">Ambil Foto</button>
+                                    <button type="button" onclick="closeWebcam()" class="bg-red-600 text-white text-xs px-3 py-1.5 rounded-lg font-bold">Batal</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: SOAL EVALUASI (30 SOAL) -->
+                <div id="soal-card" class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-sm">2</div>
+                            <h3 class="font-bold text-slate-800 text-base">Soal Evaluasi Pemecahan Masalah (30 Soal)</h3>
+                        </div>
+                        <span class="text-xs font-semibold bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Bobot Nilai: 100</span>
+                    </div>
+
+                    <!-- CONTAINER LIST SOAL -->
+                    <form id="quiz-form" class="space-y-6">
+                        <div id="quiz-container" class="space-y-6">
+                            <!-- Soal dinamis di-render via JS -->
+                        </div>
+
+                        <button type="button" onclick="submitQuiz()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+                            <i class="fas fa-paper-plane text-lg"></i> Kumpulkan Jawaban & Generate Sertifikat
+                        </button>
+                    </form>
+                </div>
+
+                <!-- STEP 3: HASIL & SERTIFIKAT DIGITAL (HIDDEN UNTIL SUBMIT) -->
+                <div id="sertifikat-container" class="hidden space-y-6">
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center space-y-2">
+                        <div class="w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center text-2xl mx-auto shadow-md">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-emerald-900">Selamat! Evaluasi Selesai</h3>
+                        <p class="text-sm text-emerald-700">Skor Akhir Anda: <span id="final-score" class="font-extrabold text-xl text-brand-700">0</span> / 100</p>
+                        <div class="pt-2">
+                            <button onclick="downloadCertificate()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition shadow flex items-center gap-2 mx-auto">
+                                <i class="fas fa-file-download text-sm"></i> Download Sertifikat (PNG)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- DESAIN SERTIFIKAT -->
+                    <div id="certificate-card" class="bg-white p-8 rounded-xl cert-border text-center space-y-6 max-w-4xl mx-auto shadow-2xl relative overflow-hidden">
+                        <div class="border-b-2 border-slate-200 pb-4">
+                            <div class="text-xs uppercase tracking-widest text-brand-700 font-bold mb-1">SERTIFIKAT KELULUSAN PEMBELAJARAN</div>
+                            <h2 class="text-2xl font-black text-slate-800 tracking-tight">MATA PELAJARAN KODING</h2>
+                            <p class="text-xs text-slate-500 mt-0.5">Topik: Pemecahan Masalah (Computational Thinking)</p>
+                        </div>
+
+                        <div class="space-y-2">
+                            <p class="text-xs text-slate-500">Diberikan kepada:</p>
+                            <h3 id="cert-nama" class="text-2xl font-extrabold text-brand-800 underline uppercase tracking-wide">NAMA SISWA</h3>
+                            <p class="text-xs text-slate-600"><span id="cert-ttl">TTL</span> | <span id="cert-sekolah">Nama Sekolah</span> | Kelas <span id="cert-kelas">10</span></p>
+                        </div>
+
+                        <p class="text-xs text-slate-600 max-w-xl mx-auto leading-relaxed">
+                            Telah berhasil menyelesaikan Modul Pembelajaran Interaktif dan Evaluasi Ujian Pemecahan Masalah (Dekomposisi, Pengenalan Pola, Abstraksi, Algoritma Alur Kerja, & Keamanan Data) dengan predikat:
+                        </p>
+
+                        <div class="inline-block bg-brand-50 border border-brand-200 rounded-xl px-6 py-2">
+                            <span class="text-xs text-slate-500 block">NILAI AKHIR EVALUASI</span>
+                            <span id="cert-score" class="text-2xl font-black text-brand-700">100 / 100</span>
+                        </div>
+
+                        <!-- FOTO & TTD -->
+                        <div class="flex justify-between items-end pt-8 px-8 border-t border-slate-100">
+                            <!-- Foto Siswa -->
+                            <div class="text-center space-y-1">
+                                <div class="w-20 h-24 border border-slate-300 rounded overflow-hidden mx-auto bg-slate-100">
+                                    <img id="cert-foto" src="" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-[10px] text-slate-400 block">Foto Peserta</span>
+                            </div>
+
+                            <!-- Stamp -->
+                            <div class="w-20 h-20 rounded-full border-4 border-double border-brand-600 text-brand-700 flex items-center justify-center font-bold text-[10px] uppercase rotate-[-12deg] opacity-80">
+                                TERVERIFIKASI
+                            </div>
+
+                            <!-- TTD GUKU -->
+                            <div class="text-center">
+                                <p class="text-[10px] text-slate-500 mb-6">Guru Pengampu,</p>
+                                <div class="font-bold text-xs text-slate-800 border-b border-slate-400 pb-0.5">Ahmad Hudzaifah, S.Kom</div>
+                                <p class="text-[9px] text-slate-400 mt-0.5">NIP. 19880412 201503 1 002</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- CANVAS HIDDEN UNTIL WEBCAM SNAPSHOT -->
+    <canvas id="webcam-canvas" class="hidden"></canvas>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 mt-auto py-4 text-center text-xs text-slate-500">
+        <p>&copy; 2026 Media Pembelajaran Interaktif KODING Kelas 10. Pengampu: <strong>Ahmad Hudzaifah, S.Kom</strong>.</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // 1. DATA SOAL EVALUASI (30 SOAL: 25 PILIHAN GANDA + 5 ISIAN SINGKAT)
+        const quizData = [
+            // Dekomposisi (Materi 2)
+            { id: 1, type: 'pg', question: 'Elemen Computational Thinking yang memecah masalah besar menjadi sub-masalah kecil disebut...', options: ['Abstraksi', 'Dekomposisi', 'Pattern Recognition', 'Algoritma'], answer: 1 },
+            { id: 2, type: 'pg', question: 'Dalam masalah kerugian kas toko, menganalisis pengeluaran sewa tempat dan listrik termasuk dekomposisi pada aspek...', options: ['Pendapatan', 'Biaya Operasional', 'Harga Pokok Penjualan', 'Kerusakan Barang'], answer: 1 },
+            { id: 3, type: 'pg', question: 'Mengapa teknik Dekomposisi penting dalam menyusun laporan keuangan?', options: ['Agar laporan terlihat berwarna', 'Untuk menemukan akar masalah dengan lebih mudah dan terfokus', 'Menghilangkan semua angka transaksi', 'Mempercepat pencetakan struk'], answer: 1 },
+            { id: 4, type: 'pg', question: 'Langkah pertama saat menerapkan dekomposisi pada kasus kebocoran anggaran usaha adalah...', options: ['Mengidentifikasi masalah utama secara jelas', 'Langsung memecat karyawan kasir', 'Membuat flowchart', 'Mengganti nama toko'], answer: 0 },
+            { id: 5, type: 'pg', question: 'Memisahkan laporan penjualan harian berdasarkan kategori produk (makanan, minuman, alat tulis) adalah contoh dari...', options: ['Pattern Recognition', 'Dekomposisi', 'Algoritma', 'Coding Python'], answer: 1 },
+            { id: 6, type: 'pg', question: 'Berikut yang BUKAN merupakan sub-komponen dekomposisi laporan arus kas adalah...', options: ['Arus kas operasi', 'Arus kas investasi', 'Arus kas pendanaan', 'Warna seragam karyawan'], answer: 3 },
+            { id: 7, type: 'pg', question: 'Manakah dari situasi berikut yang membutuhkan teknik Dekomposisi?', options: ['Menghitung 1 + 1', 'Menganalisis penyebab penurunan omset bisnis 50%', 'Mencetak struk belanja', 'Membuka aplikasi kalkulator'], answer: 1 },
+
+            // Pattern Recognition & Abstraksi (Materi 3)
+            { id: 8, type: 'pg', question: 'Menemukan bahwa kasir sering salah menginput harga setiap akhir shift sore adalah contoh dari...', options: ['Algoritma', 'Pattern Recognition (Pengenalan Pola)', 'Abstraksi Data', 'Dekomposisi'], answer: 1 },
+            { id: 9, type: 'pg', question: 'Kesalahan entri data berupa tertukarnya urutan angka (misal 54 diinput 45) disebut...', options: ['Typo Nol', 'Transposisi Angka', 'Phishing', 'Social Engineering'], answer: 1 },
+            { id: 10, type: 'pg', question: 'Proses menyaring data penting dan mengabaikan detail yang tidak relevan disebut...', options: ['Abstraksi', 'Dekomposisi', 'Looping', 'Debugging'], answer: 0 },
+            { id: 11, type: 'pg', question: 'Dalam struk belanja, informasi mana yang diabaikan saat membuat grafik penjualan bulanan (Abstraksi)?', options: ['Nominal total bayar', 'Tanggal transaksi', 'Slogan promo di paling bawah struk', 'Jumlah item terjual'], answer: 2 },
+            { id: 12, type: 'pg', question: 'Pattern recognition membantu staf audit dalam hal...', options: ['Memprediksi waktu terjadinya kesalahan berulang', 'Membuat password', 'Mematikan komputer otomatis', 'Menghapus data penting'], answer: 0 },
+            { id: 13, type: 'pg', question: 'Jika ditemukan pola transaksi mencurigakan di jam 02.00 dini hari secara terus-menerus, langkah computational thinking yang digunakan adalah...', options: ['Abstraksi', 'Pattern Recognition', 'Pseudocode', 'Sorting'], answer: 1 },
+            { id: 14, type: 'pg', question: 'Contoh abstraksi data pada sistem absensi siswa adalah...', options: ['Menyimpan NISN dan nama lengkap saja tanpa mencatat warna sepatu siswa', 'Mencatat semua pakaian siswa', 'Menghapus seluruh database sekolah', 'Menulis biografi siswa'], answer: 0 },
+
+            // Desain Solusi / Algoritma (Materi 4)
+            { id: 15, type: 'pg', question: 'Urutan langkah logis dan terstruktur untuk menyelesaikan masalah disebut...', options: ['Pseudocode', 'Algoritma', 'Flowchart', 'Koding'], answer: 1 },
+            { id: 16, type: 'pg', question: 'Simbol Flowchart berbentuk Jajaran Genjang berfungsi untuk...', options: ['Mulai / Selesai (Terminal)', 'Proses Penghitungan', 'Input / Output Data', 'Keputusan (Decision)'], answer: 2 },
+            { id: 17, type: 'pg', question: 'Simbol Belah Ketupat (Diamond) dalam Flowchart digunakan untuk...', options: ['Input data', 'Proses', 'Keputusan / Kondisi (Ya/Tidak)', 'Terminator'], answer: 2 },
+            { id: 18, type: 'pg', question: 'Penulisan algoritma yang menyerupai bahasa pemograman tetapi mudah dibaca manusia disebut...', options: ['Flowchart', 'Pseudocode', 'Koding C++', 'HTML'], answer: 1 },
+            { id: 19, type: 'pg', question: 'Struktur algoritma "JIKA total > 100000 MAKA diskon = 10%" menggunakan percabangan...', options: ['IF - THEN', 'WHILE - DO', 'FOR - NEXT', 'SWITCH - CASE'], answer: 0 },
+            { id: 20, type: 'pg', question: 'Simbol Oval / Sembujur Telur pada flowchart menandakan...', options: ['Proses', 'Terminator (Start/End)', 'Konektor', 'Input'], answer: 1 },
+            { id: 21, type: 'pg', question: 'Tujuan utama pembuatan flowchart sebelum melakukan koding aplikasi adalah...', options: ['Agar visual alur program mudah dipahami dan bebas dari kesalahan logika', 'Agar tampilan program bagus', 'Untuk memenuhi tugas saja', 'Membuat komputer bekerja cepat'], answer: 0 },
+            { id: 22, type: 'pg', question: 'Urutan langkah yang benar dalam pembuatan program kasir adalah...', options: ['Koding -> Testing -> Analisis Masalah -> Flowchart', 'Analisis Masalah -> Algoritma/Flowchart -> Koding -> Testing', 'Testing -> Koding -> Flowchart', 'Langsung Koding'], answer: 1 },
+
+            // Keamanan Data & Medsos (Materi 5)
+            { id: 23, type: 'pg', question: 'Kejahatan siber berupa pengiriman link palsu untuk menguras kata sandi perbankan dinamakan...', options: ['Phishing', 'Dekomposisi', 'Algoritma', 'Abstraksi'], answer: 0 },
+            { id: 24, type: 'pg', question: 'Memanipulasi psikologis seseorang di media sosial agar memberikan kode OTP merupakan teknik...', options: ['Phishing', 'Social Engineering', 'Hacking Hardware', 'Malware'], answer: 1 },
+            { id: 25, type: 'pg', question: 'Manakah data pribadi yang SANGAT BAHAYA jika diunggah di media sosial?', options: ['Foto pemandangan', 'Foto KTP dan Nama Ibu Kandung', 'Gambar kartun favorit', 'Resep makanan'], answer: 1 },
+
+            // Isian Singkat (Soal 26 - 30)
+            { id: 26, type: 'isian', question: 'Sebutkan istilah computational thinking untuk memecah masalah besar menjadi bagian kecil!', answer: 'dekomposisi' },
+            { id: 27, type: 'isian', question: 'Istilah untuk menyaring data inti dan mengabaikan detail yang tidak penting adalah...', answer: 'abstraksi' },
+            { id: 28, type: 'isian', question: 'Bentuk diagram visual yang menggambarkan alur kerja algoritma disebut...', answer: 'flowchart' },
+            { id: 29, type: 'isian', question: 'Metode penipuan online dengan menyamar sebagai pihak resmi untuk mencuri password disebut...', answer: 'phishing' },
+            { id: 30, type: 'isian', question: 'Nama lengkap Guru Pengampu mata pelajaran KODING Kelas 10 ini adalah...', answer: 'ahmad hudzaifah' }
+        ];
+
+        let uploadedFotoBase64 = "https://placehold.co/120x150/e2e8f0/94a3b8?text=Foto+Siswa";
+
+        // 2. RENDER QUIZ ON LOAD
+        window.onload = function() {
+            renderQuiz();
+            updateProgress('cp');
+        };
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            quizData.forEach((q, idx) => {
+                const qEl = document.createElement('div');
+                qEl.className = "p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3";
+                
+                let html = `<div class="font-bold text-xs text-brand-700">Soal No. ${idx + 1} (${q.type === 'pg' ? 'Pilihan Ganda' : 'Isian Singkat'})</div>`;
+                html += `<p class="text-xs font-semibold text-slate-800">${q.question}</p>`;
+
+                if(q.type === 'pg') {
+                    html += `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">`;
+                    q.options.forEach((opt, optIdx) => {
+                        html += `
+                            <label class="flex items-center space-x-2.5 p-2 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer text-xs">
+                                <input type="radio" name="question_${q.id}" value="${optIdx}" class="text-brand-600 focus:ring-brand-500">
+                                <span class="text-slate-700">${opt}</span>
+                            </label>
+                        `;
+                    });
+                    html += `</div>`;
+                } else {
+                    html += `
+                        <input type="text" name="question_${q.id}" placeholder="Ketik jawaban singkat di sini..." class="w-full border border-slate-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-brand-500 outline-none bg-white">
+                    `;
+                }
+
+                qEl.innerHTML = html;
+                container.appendChild(qEl);
+            });
+        }
+
+        // 3. TAB NAVIGATION
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('sec-' + tabId).classList.remove('hidden');
+
+            document.querySelectorAll('#nav-list button').forEach(btn => btn.classList.remove('sidebar-item-active'));
+            document.getElementById('nav-' + tabId).classList.add('sidebar-item-active');
+
+            // Close mobile menu if open
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+
+            updateProgress(tabId);
+        }
+
+        function updateProgress(tabId) {
+            const map = { 'cp': 16, 'dekomposisi': 33, 'pattern': 50, 'algoritma': 66, 'keamanan': 83, 'evaluasi': 100 };
+            const pct = map[tabId] || 16;
+            document.getElementById('progress-bar').style.width = pct + '%';
+            document.getElementById('progress-percent').innerText = pct + '%';
+        }
+
+        // 4. SIMULASI DEKOMPOSISI
+        function simulasiDekomposisi(type) {
+            const out = document.getElementById('dekomposisi-output');
+            if(type === 'revenue') {
+                out.innerHTML = `
+                    <div class="text-left w-full space-y-1">
+                        <strong class="text-yellow-400"><i class="fas fa-chart-line mr-1"></i> Audit Revenue:</strong>
+                        <p>Ditemukan omset harian rata-rata turun 20% di hari Selasa & Rabu. Rekomendasi CT: Buat program diskon khusus pertengahan minggu.</p>
+                    </div>`;
+            } else if(type === 'operasional') {
+                out.innerHTML = `
+                    <div class="text-left w-full space-y-1">
+                        <strong class="text-yellow-400"><i class="fas fa-bolt mr-1"></i> Audit Operasional:</strong>
+                        <p>Tagihan listrik membengkak akibat AC menyala 24 jam. Rekomendasi CT: Pasang timer otomatis pendingin ruangan.</p>
+                    </div>`;
+            } else if(type === 'hpp') {
+                out.innerHTML = `
+                    <div class="text-left w-full space-y-1">
+                        <strong class="text-yellow-400"><i class="fas fa-box mr-1"></i> Audit HPP:</strong>
+                        <p>Harga beli bahan baku dari supplier naik 15%. Rekomendasi CT: Cari 3 opsi supplier alternatif via abstraksi data vendor.</p>
+                    </div>`;
+            } else if(type === 'kebocoran') {
+                out.innerHTML = `
+                    <div class="text-left w-full space-y-1">
+                        <strong class="text-yellow-400"><i class="fas fa-exclamation-triangle mr-1"></i> Audit Kebocoran:</strong>
+                        <p>Terdapat selisih kas fisik vs pencatatan sebesar Rp 500.000 akibat human error manual entri. Rekomendasi CT: Digitalisasi kasir barcode.</p>
+                    </div>`;
+            }
+        }
+
+        // 5. SIMULASI PATTERN RECOGNITION
+        function checkRowError(row, isError, message) {
+            const cell = row.querySelector('.status-cell');
+            if(isError) {
+                row.classList.add('bg-red-950/50');
+                cell.innerHTML = `<span class="text-red-400 font-bold"><i class="fas fa-times-circle"></i> POLA ERROR: ${message}</span>`;
+            } else {
+                row.classList.add('bg-emerald-950/30');
+                cell.innerHTML = `<span class="text-emerald-400 font-bold"><i class="fas fa-check-circle"></i> Data Valid</span>`;
+            }
+        }
+
+        // 6. SIMULASI FLOWCHART
+        function runFlowchartSim() {
+            const val = parseFloat(document.getElementById('sim-input-belanja').value);
+            const res = document.getElementById('fc-result');
+            
+            if(isNaN(val) || val <= 0) {
+                alert("Masukkan angka total belanja yang valid!");
+                return;
+            }
+
+            const step1 = document.getElementById('fc-step1');
+            const step2 = document.getElementById('fc-step2');
+            const step3 = document.getElementById('fc-step3');
+            const step4 = document.getElementById('fc-step4');
+
+            // Reset step
+            [step1, step2, step3, step4].forEach(s => s.className = "p-2.5 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-between transition");
+
+            // Step 1
+            step1.className = "p-2.5 rounded-lg border border-brand-500 bg-brand-50 text-brand-700 font-bold flex items-center justify-between";
+            
+            setTimeout(() => {
+                step2.className = "p-2.5 rounded-lg border border-brand-500 bg-brand-50 text-brand-700 font-bold flex items-center justify-between";
+            }, 500);
+
+            setTimeout(() => {
+                let diskon = 0;
+                if(val >= 100000) {
+                    diskon = val * 0.10;
+                }
+                const total = val - diskon;
+
+                step3.className = "p-2.5 rounded-lg border border-brand-500 bg-brand-50 text-brand-700 font-bold flex items-center justify-between";
+                step4.className = "p-2.5 rounded-lg border border-emerald-500 bg-emerald-50 text-emerald-700 font-bold flex items-center justify-between";
+
+                res.classList.remove('hidden');
+                res.innerHTML = `
+                    <p>Input Belanja: Rp ${val.toLocaleString('id-ID')}</p>
+                    <p>Diskon Diterapkan: Rp ${diskon.toLocaleString('id-ID')} (${val >= 100000 ? 'Diskon 10%' : 'Tidak dapat diskon'})</p>
+                    <p class="text-sm font-extrabold text-brand-900 mt-1">Total Bayar Akhir: Rp ${total.toLocaleString('id-ID')}</p>
+                `;
+            }, 1000);
+        }
+
+        // 7. WEBCAM & UPLOAD FOTO
+        let videoStream = null;
+
+        function openWebcam() {
+            const box = document.getElementById('webcam-box');
+            const video = document.getElementById('webcam-video');
+            box.classList.remove('hidden');
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    videoStream = stream;
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    alert("Kamera tidak dapat diakses atau diizinkan browser.");
+                    box.classList.add('hidden');
+                });
+        }
+
+        function captureWebcam() {
+            const video = document.getElementById('webcam-video');
+            const canvas = document.getElementById('webcam-canvas');
+            canvas.width = video.videoWidth || 300;
+            canvas.height = video.videoHeight || 400;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            uploadedFotoBase64 = canvas.toDataURL('image/png');
+            document.getElementById('foto-preview').src = uploadedFotoBase64;
+
+            closeWebcam();
+        }
+
+        function closeWebcam() {
+            if(videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+            }
+            document.getElementById('webcam-box').classList.add('hidden');
+        }
+
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    uploadedFotoBase64 = evt.target.result;
+                    document.getElementById('foto-preview').src = uploadedFotoBase64;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // 8. SUBMIT QUIZ & EVALUATION SCORING
+        function submitQuiz() {
+            const nama = document.getElementById('bio-nama').value.trim();
+            const ttl = document.getElementById('bio-ttl').value.trim();
+            const sekolah = document.getElementById('bio-sekolah').value.trim();
+            const kelas = document.getElementById('bio-kelas').value;
+
+            if(!nama || !ttl || !sekolah) {
+                alert("Harap lengkapi Formulir Biodata (Nama, TTL, dan Nama Sekolah) terlebih dahulu!");
+                return;
+            }
+
+            let score = 0;
+            const form = document.getElementById('quiz-form');
+
+            quizData.forEach(q => {
+                if(q.type === 'pg') {
+                    const selected = form.querySelector(`input[name="question_${q.id}"]:checked`);
+                    if(selected && parseInt(selected.value) === q.answer) {
+                        score += 3.333; // ~100 total for 30 questions
+                    }
+                } else {
+                    const input = form.querySelector(`input[name="question_${q.id}"]`);
+                    if(input && input.value.trim().toLowerCase().includes(q.answer)) {
+                        score += 3.333;
+                    }
+                }
+            });
+
+            const finalScore = Math.min(100, Math.round(score));
+
+            // Set Data Sertifikat
+            document.getElementById('cert-nama').innerText = nama;
+            document.getElementById('cert-ttl').innerText = ttl;
+            document.getElementById('cert-sekolah').innerText = sekolah;
+            document.getElementById('cert-kelas').innerText = kelas;
+            document.getElementById('cert-score').innerText = `${finalScore} / 100`;
+            document.getElementById('cert-foto').src = uploadedFotoBase64;
+            document.getElementById('final-score').innerText = finalScore;
+
+            // Show Certificate Container
+            document.getElementById('sertifikat-container').classList.remove('hidden');
+            document.getElementById('sertifikat-container').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 9. DOWNLOAD CERTIFICATE VIA HTML2CANVAS
+        function downloadCertificate() {
+            const cert = document.getElementById('certificate-card');
+            html2canvas(cert, { scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Sertifikat_KODING_${document.getElementById('bio-nama').value || 'Siswa'}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        // MOBILE SIDEBAR TOGGLE
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.remove('-translate-x-full');
+        });
+        document.getElementById('close-sidebar-btn').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+        });
+    </script>
+</body>
+</html>
